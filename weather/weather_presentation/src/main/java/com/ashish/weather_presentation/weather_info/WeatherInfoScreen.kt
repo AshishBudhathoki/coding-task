@@ -26,7 +26,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun WeatherItemScreen(
-    scaffoldState: ScaffoldState,
     id: String,
     viewModel: WeatherInfoViewModel = hiltViewModel(),
     onNavigateUp: () -> Unit,
