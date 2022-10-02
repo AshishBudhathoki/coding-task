@@ -1,5 +1,8 @@
 package com.ashish.weather_data.di
 
+import android.app.Application
+import androidx.room.Room
+import com.ashish.weather_data.local.WeatherDatabase
 import com.ashish.weather_data.remote.WeatherApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -41,5 +44,15 @@ object WeatherDataModule {
             .client(client)
             .build()
             .create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherDatabase(app: Application): WeatherDatabase {
+        return Room.databaseBuilder(
+            app,
+            WeatherDatabase::class.java,
+            "weather_db"
+        ).build()
     }
 }
