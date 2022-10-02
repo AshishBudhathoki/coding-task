@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 rootProject.name = "CodingTask"
 include ':app'
 include ':core'
+include ':weather'
+include ':weather:weather_domain'
