@@ -6,5 +6,8 @@ data class WeatherData(
     val countryName: String?,
     val weatherCondition: String?,
     val weatherTemperature: String?,
-    val lastUpdated: String?
+    val lastUpdated: String?,
+    val weatherFeelsLike: String?,
+    val humidity: String?,
+    val wind: String?
 )

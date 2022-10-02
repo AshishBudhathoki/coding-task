@@ -13,7 +13,11 @@ class WeatherRepositoryFake : WeatherRepository {
             countryName = "Australia",
             weatherCondition = "Sunny",
             weatherTemperature = "19",
-            lastUpdated = "just now"
+            lastUpdated = "just now",
+            weatherFeelsLike = "16",
+            humidity = "23",
+            wind = "10km/hr",
+            id = 12
         )
     )
 
