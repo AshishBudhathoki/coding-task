@@ -3,6 +3,7 @@ package com.ashish.weather_presentation.weather_listings.ui
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Dp
 import com.ashish.core_ui.LocalSpacing
+import com.ashish.core_ui.TabIndicatorColor
 import com.ashish.core_ui.TopBarColor
 
 @Composable
@@ -43,6 +45,7 @@ fun CustomScrollableTabRow(
                         currentTabPosition = tabPositions[selectedTabIndex],
                         tabWidth = tabWidths[selectedTabIndex]
                     )
+                    .background(TabIndicatorColor)
             )
         }
     ) {
