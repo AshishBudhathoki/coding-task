@@ -2,15 +2,12 @@ package com.ashish.weather_data.repository
 
 import com.ashish.core.util.Resource
 import com.ashish.weather_data.local.WeatherDao
-import com.ashish.weather_data.mapper.toWeatherDomain
-import com.ashish.weather_data.mapper.toWeatherDomainData
-import com.ashish.weather_data.mapper.toWeatherEntity
+import com.ashish.weather_data.mapper.*
 import com.ashish.weather_data.remote.WeatherApi
 import com.ashish.weather_domain.model.WeatherData
 import com.ashish.weather_domain.repository.WeatherRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -23,7 +20,7 @@ class WeatherRepositoryImpl(
             emit(Resource.Loading(true))
             val localWeatherData = dao.getWeatherDataFromDb()
             emit(Resource.Success(
-                data = localWeatherData.map { it.toWeatherDomain() }
+                data = localWeatherData.map { it.toDomainWeatherData() }
             ))
 
             val isDbEmpty = localWeatherData.isEmpty()
@@ -48,12 +45,12 @@ class WeatherRepositoryImpl(
                 dao.clearWeatherData()
                 weatherDto.data.map {
                     dao.insertWeatherData(
-                        it.toWeatherDomainData().toWeatherEntity()
+                        it.toDomainWeatherData().toWeatherDataEntity()
                     )
                 }
                 emit(Resource.Success(
                     data = dao.getWeatherDataFromDb().map {
-                        it.toWeatherDomain()
+                        it.toDomainWeatherData()
                     }
                 ))
                 emit(Resource.Loading(false))
@@ -68,7 +65,7 @@ class WeatherRepositoryImpl(
             val localWeatherData = dao.getWeatherDataItem(id)
             emit(
                 Resource.Success(
-                    data = localWeatherData.toWeatherDomain()
+                    data = localWeatherData.toDomainWeatherData()
                 )
             )
         }

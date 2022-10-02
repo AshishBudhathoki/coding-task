@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.room.Room
 import com.ashish.weather_data.local.WeatherDatabase
 import com.ashish.weather_data.remote.WeatherApi
+import com.ashish.weather_data.repository.WeatherRepositoryImpl
+import com.ashish.weather_domain.repository.WeatherRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -54,5 +56,17 @@ object WeatherDataModule {
             WeatherDatabase::class.java,
             "weather_db"
         ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherRepository(
+        weatherApi: WeatherApi,
+        db: WeatherDatabase
+    ): WeatherRepository {
+        return WeatherRepositoryImpl(
+            dao = db.dao,
+            weatherApi = weatherApi
+        )
     }
 }
