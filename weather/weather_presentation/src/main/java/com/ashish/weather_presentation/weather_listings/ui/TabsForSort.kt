@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import com.ashish.core_ui.LocalSpacing
 import com.ashish.core_ui.TopBarColor
 
 @Composable
@@ -22,18 +22,19 @@ fun CustomScrollableTabRow(
     selectedTabIndex: Int,
     onTabClick: (Int) -> Unit
 ) {
+    val spacing = LocalSpacing.current
     val density = LocalDensity.current
     val tabWidths = remember {
         val tabWidthStateList = mutableStateListOf<Dp>()
         repeat(tabs.size) {
-            tabWidthStateList.add(0.dp)
+            tabWidthStateList.add(spacing.default)
         }
         tabWidthStateList
     }
     ScrollableTabRow(
         selectedTabIndex = selectedTabIndex,
         contentColor = TopBarColor,
-        edgePadding = 0.dp,
+        edgePadding = spacing.default,
         backgroundColor = Color.White,
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
