@@ -8,3 +8,6 @@ val DarkGray = Color(0xFF202020)
 val TextWhite = Color(0xFFEEEEEE)
 val TopBarColor = Color(0xFF224154)
 val TabIndicatorColor = Color(0xFF57CCD4)
+val Primary = TopBarColor
+val Secondary = TabIndicatorColor
+val PrimaryVariant = DarkGray

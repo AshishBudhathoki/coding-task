@@ -53,6 +53,12 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.core))
+    implementation(project(Modules.coreUi))
+    implementation(project(Modules.weatherPresentation))
+    implementation(project(Modules.weatherDomain))
+    implementation(project(Modules.weatherData))
+
     implementation(Compose.ui)
     implementation(Compose.uiToolingPreview)
     implementation(Compose.hiltNavigationCompose)
