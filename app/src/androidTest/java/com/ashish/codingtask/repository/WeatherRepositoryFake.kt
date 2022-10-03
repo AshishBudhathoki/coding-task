@@ -1,6 +1,7 @@
 package com.ashish.codingtask.repository
 
 import com.ashish.core.util.Resource
+import com.ashish.weather_data.local.entity.WeatherDataEntity
 import com.ashish.weather_domain.model.WeatherData
 import com.ashish.weather_domain.repository.WeatherRepository
 import kotlinx.coroutines.flow.Flow
@@ -8,23 +9,23 @@ import kotlinx.coroutines.flow.flow
 
 class WeatherRepositoryFake : WeatherRepository {
 
-    private val weatherData = listOf(
+    val weatherDataList = (1..25).map {
         WeatherData(
-            venueName = "Dunbogan",
-            countryName = "Australia",
-            weatherCondition = "Sunny",
-            weatherTemperature = "19",
-            lastUpdated = "just now",
-            weatherFeelsLike = "16",
-            humidity = "23",
-            wind = "10km/hr",
-            id = 12
+            id = it,
+            venueName = "venueName$it",
+            countryName = "countryName$it",
+            weatherCondition = "weatherCondition$it",
+            weatherTemperature = "${it * 3}",
+            lastUpdated = "${it * 250}",
+            weatherFeelsLike = "weatherFeelsLike$it",
+            humidity = "humidity$it",
+            wind = "wind$it"
         )
-    )
+    }
 
     override suspend fun getWeatherData(fetchFromRemote: Boolean): Flow<Resource<List<WeatherData>>> {
         return flow {
-            emit(Resource.Success(weatherData))
+            emit(Resource.Success(weatherDataList))
         }
     }
 
@@ -34,7 +35,7 @@ class WeatherRepositoryFake : WeatherRepository {
 
     override suspend fun getFilteredWeatherData(countryId: String): Flow<Resource<List<WeatherData>>> {
         return flow {
-            emit(Resource.Success(weatherData))
+            emit(Resource.Success(weatherDataList))
         }
     }
 }

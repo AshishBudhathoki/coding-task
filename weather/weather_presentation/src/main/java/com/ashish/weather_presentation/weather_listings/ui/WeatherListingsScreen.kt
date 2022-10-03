@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ashish.core_ui.DarkGray
@@ -82,6 +83,7 @@ fun WeatherListingsScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
+                        .testTag("test_lazy_column")
 
                 ) {
                     items(state.weatherData.size) { i ->

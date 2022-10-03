@@ -1,19 +1,24 @@
 package com.ashish.codingtask
 
 import WeatherListingsScreen
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithText
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.ashish.codingtask.navigation.Route
 import com.ashish.codingtask.repository.WeatherRepositoryFake
@@ -21,6 +26,8 @@ import com.ashish.codingtask.theme.WeatherListingsTheme
 import com.ashish.weather_domain.usecase.GetWeatherDataUseCase
 import com.ashish.weather_presentation.weather_info.WeatherItemScreen
 import com.ashish.weather_presentation.weather_listings.WeatherListViewModel
+import com.google.common.base.Verify.verify
+import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 
@@ -35,6 +42,7 @@ import org.junit.Rule
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
+@ExperimentalComposeUiApi
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class WeatherE2E {
@@ -57,6 +65,8 @@ class WeatherE2E {
         getWeatherDataUseCase = GetWeatherDataUseCase(repositoryFake)
         weatherListViewModel = WeatherListViewModel(getWeatherDataUseCase)
 
+        navController = TestNavHostController(ApplicationProvider.getApplicationContext())
+
         composeRule.setContent {
             WeatherListingsTheme {
                 val navController = rememberNavController()
@@ -76,7 +86,8 @@ class WeatherE2E {
                                     navController.navigate(
                                         Route.WEATHER_ITEM + "/$id"
                                     )
-                                }
+                                },
+                                viewModel = weatherListViewModel
                             )
                         }
                         composable(
@@ -104,15 +115,36 @@ class WeatherE2E {
     }
 
     @Test
-    fun givenUser_whenOpensApp_TabsDisplayed(){
+    fun givenUser_whenOpensApp_TabsDisplayed() {
         composeRule
             .onNodeWithText("A-Z")
             .assertIsDisplayed()
+            .assertIsSelectable()
+
+        composeRule.onNodeWithTag("test_lazy_column")
+            .assert(hasScrollAction())
+
         composeRule
             .onNodeWithText("Temperature")
             .assertIsDisplayed()
+            .assertIsSelectable()
+
+        composeRule
+            .onNodeWithText("Temperature")
+            .performClick()
+
+        assertThat(
+            weatherListViewModel.state.weatherData == repositoryFake.weatherDataList
+        ).isTrue()
+
         composeRule
             .onNodeWithText("Last Updated")
             .assertIsDisplayed()
+            .assertIsSelectable()
+
+        composeRule.onNodeWithTag("test_lazy_column")
+            .onChildAt(0)
+            .performClick()
     }
+
 }
