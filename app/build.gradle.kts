@@ -100,7 +100,6 @@ dependencies {
     androidTestImplementation(Testing.coroutines)
     androidTestImplementation(Testing.turbine)
     androidTestImplementation(Testing.composeUiTest)
-    androidTestImplementation(Testing.mockkAndroid)
     androidTestImplementation(Testing.mockWebServer)
     androidTestImplementation(Testing.hiltTesting)
     kaptAndroidTest(DaggerHilt.hiltCompiler)
