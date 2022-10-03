@@ -85,6 +85,8 @@ dependencies {
     implementation(Room.roomKtx)
     implementation(Room.roomRuntime)
 
+    implementation(Testing.navigationTest)
+
     testImplementation(Testing.junit4)
     testImplementation(Testing.junitAndroidExt)
     testImplementation(Testing.truth)
