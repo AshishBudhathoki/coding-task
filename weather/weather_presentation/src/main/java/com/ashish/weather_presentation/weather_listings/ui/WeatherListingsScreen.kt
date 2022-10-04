@@ -27,6 +27,7 @@ fun WeatherListingsScreen(
 
     var selectedTabIndex by remember { mutableStateOf(0) }
     val tabs = listOf("A-Z", "Temperature", "Last Updated")
+    viewModel.onEvent(WeatherListingEvent.AlphabetSort)
 
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = viewModel.state.isRefreshing
