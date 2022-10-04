@@ -55,9 +55,7 @@ class MainActivity : ComponentActivity() {
                             val id = it.arguments?.getString("id")!!
                             WeatherItemScreen(
                                 id = id,
-                                onNavigateUp = {
-                                    navController.navigateUp()
-                                }
+                                navController = navController
                             )
                         }
                     }

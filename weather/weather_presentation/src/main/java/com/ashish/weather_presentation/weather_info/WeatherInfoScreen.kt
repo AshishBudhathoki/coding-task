@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.ashish.core.util.toDateString
 import com.ashish.core_ui.DarkGray
 import com.ashish.core_ui.LocalSpacing
@@ -35,7 +36,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 fun WeatherItemScreen(
     id: String,
     viewModel: WeatherInfoViewModel = hiltViewModel(),
-    onNavigateUp: () -> Unit,
+    navController: NavController,
 ) {
     val spacing = LocalSpacing.current
     val weatherData = viewModel.state.weatherData
@@ -60,7 +61,7 @@ fun WeatherItemScreen(
                 containerColor = TopBarColor
             ),
             navigationIcon = {
-                IconButton(onClick = { onNavigateUp }) {
+                IconButton(onClick = { navController.navigateUp() }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Back",
