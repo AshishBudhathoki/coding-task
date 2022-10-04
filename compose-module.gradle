@@ -64,6 +64,8 @@ dependencies {
     implementation(Google.accompanistSwipeRefresh)
     implementation(Google.accompanistPager)
 
+    coreLibraryDesugaring Desugar.desugar
+
     testImplementation Testing.junit4
     testImplementation Testing.junitAndroidExt
     testImplementation Testing.truth
