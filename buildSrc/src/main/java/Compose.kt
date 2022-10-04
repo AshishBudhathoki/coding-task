@@ -18,4 +18,7 @@ object Compose {
 
     private const val lifecycleVersion = "2.4.0"
     const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
+
+    private const val material3ComposeVersion = "1.0.0-alpha02"
+    const val material3Compose = "androidx.compose.material3:material3:$material3ComposeVersion"
 }
