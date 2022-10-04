@@ -69,6 +69,7 @@ private fun appTopBar() {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Weather",
+                style = MaterialTheme.typography.h2,
                 textAlign = TextAlign.Center,
                 color = TextWhite
             )

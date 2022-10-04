@@ -4,9 +4,16 @@ import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -23,7 +30,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
  * Shows the weather info, when user taps the item from the weather lists
  */
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherItemScreen(
     id: String,
@@ -39,16 +46,28 @@ fun WeatherItemScreen(
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
-        TopAppBar(
+        CenterAlignedTopAppBar(
             title = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "Weather",
+                    style = MaterialTheme.typography.h2,
                     textAlign = TextAlign.Center,
                     color = TextWhite
                 )
             },
-            backgroundColor = TopBarColor
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = TopBarColor
+            ),
+            navigationIcon = {
+                IconButton(onClick = { onNavigateUp }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = Color.White
+                    )
+                }
+            }
         )
         Row(
             modifier = Modifier.padding(spacing.spaceMedium),
