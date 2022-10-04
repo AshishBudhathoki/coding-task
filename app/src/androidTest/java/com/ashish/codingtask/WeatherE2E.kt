@@ -75,7 +75,7 @@ class WeatherE2E {
         getWeatherItemUseCase = GetWeatherItemUseCase(repositoryFake)
         weatherListViewModel = WeatherListViewModel(getWeatherDataUseCase)
         weatherInfoViewModel = WeatherInfoViewModel(getWeatherItemUseCase, savedStateHandle)
-        
+
         composeRule.setContent {
             WeatherListingsTheme {
                 navController = rememberNavController()
@@ -110,9 +110,7 @@ class WeatherE2E {
                             val id = it.arguments?.getString("id")!!
                             WeatherItemScreen(
                                 id = id,
-                                onNavigateUp = {
-                                    navController.navigateUp()
-                                },
+                                navController = navController,
                                 viewModel = weatherInfoViewModel
                             )
                         }
@@ -186,6 +184,22 @@ class WeatherE2E {
                 ?.route
                 ?.startsWith(Route.WEATHER_ITEM)
         ).isTrue()
+
+        composeRule
+            .onNodeWithText("Feels like")
+            .assertIsDisplayed()
+
+        composeRule
+            .onNodeWithText("Humidity")
+            .assertIsDisplayed()
+
+        composeRule
+            .onNodeWithText("Wind")
+            .assertIsDisplayed()
+
+        composeRule
+            .onNodeWithText("Last Updated:",true)
+            .assertIsDisplayed()
     }
 
 }
