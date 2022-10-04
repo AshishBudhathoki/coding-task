@@ -2,11 +2,13 @@ package com.ashish.weather_domain.usecase
 
 import com.ashish.weather_domain.repository.WeatherRepositoryFake
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class GetWeatherDataUseCaseTest {
     private lateinit var getWeatherDataUseCase: GetWeatherDataUseCase
     private lateinit var repositoryFake: WeatherRepositoryFake
