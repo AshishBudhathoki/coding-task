@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -61,7 +62,9 @@ fun WeatherItemScreen(
                 containerColor = TopBarColor
             ),
             navigationIcon = {
-                IconButton(onClick = { navController.navigateUp() }) {
+                IconButton(
+                    modifier = Modifier.testTag("test_arrow_back_button"),
+                    onClick = { navController.navigateUp() }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Back",

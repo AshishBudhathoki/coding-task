@@ -123,7 +123,7 @@ class WeatherE2E {
     }
 
     @Test
-    fun givenUser_whenOpensApp_TabsDisplayed() {
+    fun weatherAppEndToEndTest() {
         composeRule
             .onNodeWithText("A-Z")
             .assertIsDisplayed()
@@ -138,7 +138,6 @@ class WeatherE2E {
                 it.venueName
             }
         ).isTrue()
-
 
         composeRule
             .onNodeWithText("Temperature")
@@ -198,8 +197,17 @@ class WeatherE2E {
             .assertIsDisplayed()
 
         composeRule
-            .onNodeWithText("Last Updated:",true)
+            .onNodeWithText("Last Updated:", true)
             .assertIsDisplayed()
-    }
 
+        composeRule.onNodeWithTag("test_arrow_back_button")
+            .performClick()
+
+        assertThat(
+            navController
+                .currentDestination
+                ?.route
+                ?.startsWith(Route.WEATHER_HOME)
+        ).isTrue()
+    }
 }
