@@ -7,12 +7,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ashish.core_ui.DarkGray
-import com.ashish.core_ui.LocalSpacing
-import com.ashish.core_ui.TextWhite
-import com.ashish.core_ui.TopBarColor
+import com.ashish.core_ui.*
 import com.ashish.weather_presentation.weather_listings.WeatherListViewModel
 import com.ashish.weather_presentation.weather_listings.WeatherListingEvent
+import com.ashish.weather_presentation.weather_listings.WeatherListingsState
 import com.ashish.weather_presentation.weather_listings.ui.CustomScrollableTabRow
 import com.ashish.weather_presentation.weather_listings.ui.WeatherListItem
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -44,35 +42,9 @@ fun WeatherListingsScreen(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            TopAppBar(
-                title = {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = "Weather",
-                        textAlign = TextAlign.Center,
-                        color = TextWhite
-                    )
-                },
-                backgroundColor = TopBarColor
-            )
-            CustomScrollableTabRow(
-                tabs = tabs,
-                selectedTabIndex = selectedTabIndex,
-            ) { tabIndex ->
-                selectedTabIndex = tabIndex
-                when (tabIndex) {
-                    0 -> {
-                        viewModel.onEvent(WeatherListingEvent.AlphabetSort)
-                    }
-                    1 -> {
-                        viewModel.onEvent(WeatherListingEvent.TemperatureSort)
-                    }
-                    2 -> {
-                        viewModel.onEvent(WeatherListingEvent.LastUpdatedSort)
-                    }
-                }
+            appTopBar()
 
-            }
+            sortTabLayout(tabs, selectedTabIndex, viewModel)
 
             SwipeRefresh(
                 state = swipeRefreshState,
@@ -80,42 +52,98 @@ fun WeatherListingsScreen(
                     viewModel.onEvent(WeatherListingEvent.Refresh)
                 }
             ) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .testTag("test_lazy_column")
-
-                ) {
-                    items(state.weatherData.size) { i ->
-                        val weatherData = state.weatherData[i]
-                        WeatherListItem(
-                            weatherData = weatherData,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(spacing.spaceMedium)
-                        ) {
-                            onNavigateToSearch(it.id.toString())
-                        }
-                        if (i < state.weatherData.size) {
-                            Divider(
-                                modifier = Modifier.padding(
-                                    horizontal = spacing.spaceMedium
-                                )
-                            )
-                        }
-                    }
-                }
+                weatherListView(state, spacing, onNavigateToSearch)
 
             }
         }
 
-        Button(modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(backgroundColor = TextWhite),
-            onClick = { println("hi") }) {
+        filterButton()
+    }
+}
+
+@Composable
+private fun appTopBar() {
+    TopAppBar(
+        title = {
             Text(
-                color = DarkGray,
-                text = "Filter"
+                modifier = Modifier.fillMaxWidth(),
+                text = "Weather",
+                textAlign = TextAlign.Center,
+                color = TextWhite
             )
+        },
+        backgroundColor = TopBarColor
+    )
+}
+
+@Composable
+private fun sortTabLayout(
+    tabs: List<String>,
+    selectedTabIndex: Int,
+    viewModel: WeatherListViewModel
+) {
+    var selectedTabIndex1 = selectedTabIndex
+    CustomScrollableTabRow(
+        tabs = tabs,
+        selectedTabIndex = selectedTabIndex1,
+    ) { tabIndex ->
+        selectedTabIndex1 = tabIndex
+        when (tabIndex) {
+            0 -> {
+                viewModel.onEvent(WeatherListingEvent.AlphabetSort)
+            }
+            1 -> {
+                viewModel.onEvent(WeatherListingEvent.TemperatureSort)
+            }
+            2 -> {
+                viewModel.onEvent(WeatherListingEvent.LastUpdatedSort)
+            }
         }
+
+    }
+}
+
+@Composable
+private fun weatherListView(
+    state: WeatherListingsState,
+    spacing: Dimensions,
+    onNavigateToSearch: (String) -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag("test_lazy_column")
+
+    ) {
+        items(state.weatherData.size) { i ->
+            val weatherData = state.weatherData[i]
+            WeatherListItem(
+                weatherData = weatherData,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(spacing.spaceMedium)
+            ) {
+                onNavigateToSearch(it.id.toString())
+            }
+            if (i < state.weatherData.size) {
+                Divider(
+                    modifier = Modifier.padding(
+                        horizontal = spacing.spaceMedium
+                    )
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun filterButton() {
+    Button(modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(backgroundColor = TextWhite),
+        onClick = { println("hi") }) {
+        Text(
+            color = DarkGray,
+            text = "Filter"
+        )
     }
 }
