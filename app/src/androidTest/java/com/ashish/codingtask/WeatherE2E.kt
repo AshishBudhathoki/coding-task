@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -24,6 +25,8 @@ import com.ashish.codingtask.navigation.Route
 import com.ashish.codingtask.repository.WeatherRepositoryFake
 import com.ashish.codingtask.theme.WeatherListingsTheme
 import com.ashish.weather_domain.usecase.GetWeatherDataUseCase
+import com.ashish.weather_domain.usecase.GetWeatherItemUseCase
+import com.ashish.weather_presentation.weather_info.WeatherInfoViewModel
 import com.ashish.weather_presentation.weather_info.WeatherItemScreen
 import com.ashish.weather_presentation.weather_listings.WeatherListViewModel
 import com.google.common.base.Verify.verify
@@ -55,7 +58,13 @@ class WeatherE2E {
 
     private lateinit var repositoryFake: WeatherRepositoryFake
     private lateinit var getWeatherDataUseCase: GetWeatherDataUseCase
+    private lateinit var getWeatherItemUseCase: GetWeatherItemUseCase
     private lateinit var weatherListViewModel: WeatherListViewModel
+    private lateinit var weatherInfoViewModel: WeatherInfoViewModel
+
+    private val savedStateHandle = SavedStateHandle().apply {
+        set("id", "0")
+    }
 
     private lateinit var navController: NavHostController
 
@@ -63,13 +72,13 @@ class WeatherE2E {
     fun setUp() {
         repositoryFake = WeatherRepositoryFake()
         getWeatherDataUseCase = GetWeatherDataUseCase(repositoryFake)
+        getWeatherItemUseCase = GetWeatherItemUseCase(repositoryFake)
         weatherListViewModel = WeatherListViewModel(getWeatherDataUseCase)
-
-        navController = TestNavHostController(ApplicationProvider.getApplicationContext())
-
+        weatherInfoViewModel = WeatherInfoViewModel(getWeatherItemUseCase, savedStateHandle)
+        
         composeRule.setContent {
             WeatherListingsTheme {
-                val navController = rememberNavController()
+                navController = rememberNavController()
                 val scaffoldState = rememberScaffoldState()
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -103,7 +112,8 @@ class WeatherE2E {
                                 id = id,
                                 onNavigateUp = {
                                     navController.navigateUp()
-                                }
+                                },
+                                viewModel = weatherInfoViewModel
                             )
                         }
                     }
@@ -121,8 +131,16 @@ class WeatherE2E {
             .assertIsDisplayed()
             .assertIsSelectable()
 
-        composeRule.onNodeWithTag("test_lazy_column")
-            .assert(hasScrollAction())
+        composeRule
+            .onNodeWithText("A-Z")
+            .performClick()
+
+        assertThat(
+            weatherListViewModel.state.weatherData == repositoryFake.weatherDataList.sortedBy {
+                it.venueName
+            }
+        ).isTrue()
+
 
         composeRule
             .onNodeWithText("Temperature")
@@ -134,7 +152,9 @@ class WeatherE2E {
             .performClick()
 
         assertThat(
-            weatherListViewModel.state.weatherData == repositoryFake.weatherDataList
+            weatherListViewModel.state.weatherData == repositoryFake.weatherDataList.sortedBy {
+                it.weatherTemperature?.toLong()
+            }
         ).isTrue()
 
         composeRule
@@ -142,9 +162,30 @@ class WeatherE2E {
             .assertIsDisplayed()
             .assertIsSelectable()
 
+        composeRule
+            .onNodeWithText("Last Updated")
+            .performClick()
+
+        assertThat(
+            weatherListViewModel.state.weatherData == repositoryFake.weatherDataList.sortedBy {
+                it.lastUpdated
+            }
+        ).isTrue()
+
+
+        composeRule.onNodeWithTag("test_lazy_column")
+            .assert(hasScrollAction())
+
         composeRule.onNodeWithTag("test_lazy_column")
             .onChildAt(0)
             .performClick()
+
+        assertThat(
+            navController
+                .currentDestination
+                ?.route
+                ?.startsWith(Route.WEATHER_ITEM)
+        ).isTrue()
     }
 
 }

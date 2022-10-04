@@ -30,7 +30,9 @@ class WeatherRepositoryFake : WeatherRepository {
     }
 
     override suspend fun getWeatherDataItem(id: Int): Flow<Resource<WeatherData>> {
-        TODO("Not yet implemented")
+        return flow {
+            emit(Resource.Success(weatherDataList[id]))
+        }
     }
 
     override suspend fun getFilteredWeatherData(countryId: String): Flow<Resource<List<WeatherData>>> {
