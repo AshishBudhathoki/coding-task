@@ -19,7 +19,7 @@ class WeatherListViewModel @Inject constructor(
     var state by mutableStateOf(WeatherListingsState())
 
     init {
-        getWeatherData(true)
+        getWeatherData()
     }
 
 
