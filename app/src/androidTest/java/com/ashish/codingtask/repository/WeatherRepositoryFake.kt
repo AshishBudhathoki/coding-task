@@ -1,7 +1,6 @@
 package com.ashish.codingtask.repository
 
 import com.ashish.core.util.Resource
-import com.ashish.weather_data.local.entity.WeatherDataEntity
 import com.ashish.weather_domain.model.WeatherData
 import com.ashish.weather_domain.repository.WeatherRepository
 import kotlinx.coroutines.flow.Flow

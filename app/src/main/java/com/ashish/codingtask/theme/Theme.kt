@@ -8,8 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import com.ashish.core_ui.*
-import com.ashish.learnclean.theme.Shapes
-import com.ashish.learnclean.theme.Typography
 
 private val DarkColorPalette = darkColors(
     primary = Primary,
@@ -38,7 +36,7 @@ private val LightColorPalette = lightColors(
 @Composable
 fun WeatherListingsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable() () -> Unit
+    content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) {
         DarkColorPalette

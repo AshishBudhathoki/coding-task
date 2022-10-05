@@ -1,4 +1,4 @@
-package com.ashish.learnclean.theme
+package com.ashish.codingtask.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

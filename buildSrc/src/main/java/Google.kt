@@ -6,7 +6,7 @@ object Google {
     const val accompanistSwipeRefresh =
         "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
 
-    const val accompanistPager = "com.google.accompanist:accompanist-pager:$accompanistVersion"
+    private const val accompanistPager = "com.google.accompanist:accompanist-pager:$accompanistVersion"
     const val accompanistPagerIndicator =
         "com.google.accompanist:accompanist-pager-indicators:$accompanistPager"
 }
