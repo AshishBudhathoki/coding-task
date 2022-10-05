@@ -25,13 +25,13 @@ fun WeatherListingsScreen(
 ) {
     val spacing = LocalSpacing.current
 
-    var selectedTabIndex by remember { mutableStateOf(0) }
     val tabs = listOf("A-Z", "Temperature", "Last Updated")
 
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = viewModel.state.isRefreshing
     )
     val state = viewModel.state
+    var selectedTabIndex by remember { mutableStateOf(state.tabPosition) }
 
     Column(
         modifier = Modifier

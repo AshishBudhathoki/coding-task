@@ -6,5 +6,6 @@ data class WeatherListingsState(
     val weatherData: List<WeatherData> = emptyList(),
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val tabPosition: Int = 0
 )

@@ -30,19 +30,22 @@ class WeatherListViewModel @Inject constructor(
             }
             is WeatherListingEvent.AlphabetSort -> {
                 state = state.copy(
-                    weatherData = state.weatherData.sortedBy { it.venueName }
+                    weatherData = state.weatherData.sortedBy { it.venueName },
+                    tabPosition = 0
                 )
             }
             is WeatherListingEvent.TemperatureSort -> {
                 state = state.copy(
                     weatherData = state.weatherData.filter { !it.weatherTemperature.isNullOrEmpty() }
-                        .sortedBy { it.weatherTemperature?.toInt() }
+                        .sortedBy { it.weatherTemperature?.toInt() },
+                    tabPosition = 1
                 )
             }
             is WeatherListingEvent.LastUpdatedSort -> {
                 state = state.copy(
                     weatherData = state.weatherData.filter { !it.lastUpdated.isNullOrEmpty() }
-                        .sortedBy { it.lastUpdated }
+                        .sortedBy { it.lastUpdated },
+                    tabPosition = 2
                 )
             }
         }
