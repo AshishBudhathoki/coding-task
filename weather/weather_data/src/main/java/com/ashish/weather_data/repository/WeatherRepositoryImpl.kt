@@ -2,7 +2,8 @@ package com.ashish.weather_data.repository
 
 import com.ashish.core.util.Resource
 import com.ashish.weather_data.local.WeatherDao
-import com.ashish.weather_data.mapper.*
+import com.ashish.weather_data.mapper.toDomainWeatherData
+import com.ashish.weather_data.mapper.toWeatherDataEntity
 import com.ashish.weather_data.remote.WeatherApi
 import com.ashish.weather_domain.model.WeatherData
 import com.ashish.weather_domain.repository.WeatherRepository
