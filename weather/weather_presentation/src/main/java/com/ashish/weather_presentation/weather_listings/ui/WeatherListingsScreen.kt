@@ -1,8 +1,8 @@
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
@@ -69,6 +69,9 @@ fun WeatherListingsScreen(
                     viewModel.onEvent(WeatherListingEvent.Refresh)
                 }
             ) {
+                if (state.error != null && state.weatherData.isEmpty()) {
+                    state.error?.let { ErrorText(it, spacing) }
+                }
                 WeatherListLazyColumn(state, spacing, onNavigateToSearch)
 
             }
@@ -76,6 +79,18 @@ fun WeatherListingsScreen(
 
         FilterButton()
     }
+}
+
+@Composable
+private fun ErrorText(error: String, spacing: Dimensions) {
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(spacing.spaceSmall),
+        text = error,
+        color = MaterialTheme.colors.error,
+        textAlign = TextAlign.Center,
+    )
 }
 
 @Composable
