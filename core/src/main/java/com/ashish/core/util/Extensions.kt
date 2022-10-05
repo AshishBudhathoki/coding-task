@@ -18,5 +18,9 @@ fun String.toDateString(): String {
     } else {
         ""
     }
-
 }
+
+fun String?.formatHumidityValue(): String? =
+    this?.replace("Humidity:", "")?.trim()
+
+fun String?.formatWindValue(): String? = this?.replace("Wind:", "")?.trim()
