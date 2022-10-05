@@ -61,6 +61,18 @@ class WeatherListViewModel @Inject constructor(
                             state = state.copy(
                                 weatherData = weatherData
                             )
+                            when (state.tabPosition) {
+                                0 -> {
+                                    onEvent(WeatherListingEvent.AlphabetSort)
+                                }
+                                1 -> {
+                                    onEvent(WeatherListingEvent.TemperatureSort)
+                                }
+                                2 -> {
+                                    onEvent(WeatherListingEvent.LastUpdatedSort)
+                                }
+                                else -> {}
+                            }
                         }
                     }
                     is Resource.Error -> {
