@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,7 +40,6 @@ fun WeatherItemScreen(
 ) {
     val spacing = LocalSpacing.current
     val weatherData = viewModel.state.weatherData
-    Log.d("WEATHERITEM DATA IS", weatherData?.lastUpdated.toString())
 
     Column(
         modifier = Modifier
@@ -148,11 +146,10 @@ fun TableScreen(weatherData: WeatherData?) {
     val column1Weight = .3f // 30%
     val column2Weight = .3f // 70%
     val column3Weight = .3f
-    LazyColumn(
-    ) {
+    LazyColumn {
         // Column Header
         item {
-            Row() {
+            Row {
                 TableCell(text = "Feels like", weight = column1Weight)
                 TableCell(text = "Humidity", weight = column2Weight)
                 TableCell(text = "Wind", weight = column3Weight)

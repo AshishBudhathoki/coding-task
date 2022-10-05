@@ -69,7 +69,7 @@ fun WeatherListingsScreen(
                 }
             ) {
                 if (state.error != null && state.weatherData.isEmpty()) {
-                    state.error?.let { ErrorText(it, spacing) }
+                    ErrorText(state.error, spacing)
                 }
                 WeatherListLazyColumn(state, spacing, onNavigateToSearch)
 
