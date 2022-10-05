@@ -2,7 +2,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
@@ -76,8 +75,6 @@ fun WeatherListingsScreen(
 
             }
         }
-
-        FilterButton()
     }
 }
 
@@ -95,9 +92,12 @@ private fun ErrorText(error: String, spacing: Dimensions) {
 
 @Composable
 private fun FilterButton() {
-    Button(modifier = Modifier.fillMaxWidth(),
+    Button(
+        modifier = Modifier
+            .fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(backgroundColor = TextWhite),
-        onClick = { println("hi") }) {
+        onClick = { },
+    ) {
         Text(
             color = DarkGray,
             text = "Filter"
@@ -145,6 +145,7 @@ private fun TopAppBarLayout() {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Weather",
+                style = MaterialTheme.typography.h2,
                 textAlign = TextAlign.Center,
                 color = TextWhite
             )
